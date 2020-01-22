@@ -3,10 +3,10 @@
 // DCL00-J. Prevent class initialization cycles
 
 class A {
-  public static final int a = B.b + 3;
+  public static final int a = 4;
   // ...
 }
- 
+ /// *issue is fixed by eliminating class a's reliance on class b
 class B {
   public static final int b = A.a + 1;
   // ...
@@ -18,9 +18,10 @@ class B {
 
 class A {
   public static int a = B.b();
-  public static int c() { return 2; }
 }
   
 class B {
   public static int b() { return A.c(); }
+    public static int c() { return 2; }
+// *remove the intraclass reliance by moving the c field into class b
 }
